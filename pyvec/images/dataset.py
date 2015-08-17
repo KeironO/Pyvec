@@ -5,6 +5,10 @@ from keras.utils import np_utils
 from collections import Counter
 
 
+import cPickle as pickle
+
+#def pickleTheData(train_data, train_labels, val_data, val_labels, test_data, test_labels):
+
 '''
     file name: dataset.py
     author/s: Keiron O'Shea
@@ -47,6 +51,14 @@ get_labels()
 '''
 
 def get_labels(directory):
+<<<<<<< HEAD
+    imglist = []
+    for dirname,dirnames,filenames in os.walk(directory):
+        for filename in filenames:
+            label = os.path.basename(os.path.normpath(dirname))
+            imglist.append([label, filename])
+    return imglist
+=======
 	imglist = []
 	for dirname,dirnames,filenames in os.walk(directory):
 		for filename in filenames:
@@ -55,6 +67,7 @@ def get_labels(directory):
 	class_sizes = get_class_size(imglist)
 	return imglist, class_sizes
 
+>>>>>>> c2dfa26ad308799d80fb8ce7a8938bbeeebfcb59
 
 '''
 load_images()
@@ -76,7 +89,12 @@ def load_images(directory, image_height, image_width):
     for i, image_name in enumerate(image_list):
         # Open the files.
         images = Image.open(directory+"/"+image_name[0]+"/"+image_name[1])
+<<<<<<< HEAD
+    width, height = images.size
+    images = images.resize((image_height, image_width))
+=======
         images = images.resize((image_height, image_width))
+>>>>>>> c2dfa26ad308799d80fb8ce7a8938bbeeebfcb59
         # Converts the images into float32 representation
         vectored_image = np.asarray(images, dtype="float32")
         # 3 shape vector..
@@ -172,7 +190,7 @@ def splitTrainValidationAndTest(split, number_images, data, label, height, width
 def vectorise(directory, nb_classes, height, width, split, with_test=False): # Get train + val by default.
     # Nasty-ass unoptimised image vectors with labels.
     train_data, train_label= load_images(directory, height, width)
-
+    
     number_images = len(train_label)
     index = [i for i in range(number_images)]
 
@@ -193,8 +211,21 @@ def vectorise(directory, nb_classes, height, width, split, with_test=False): # G
     # Get train, validation and testing data.
     if with_test == True:
         X_train, Y_train, X_val, Y_val, X_test, Y_test = splitTrainValidationAndTest(split, number_images, train_data, label, height, width)
+        pickleTheData(X_train, Y_train, X_val, Y_val, X_test, Y_test)
+       
         return X_train, Y_train, X_val, Y_val, X_test, Y_test
+        
+        
+    
+   
+def pickleTheData(train_data, train_labels, val_data, val_labels, test_data, test_labels):    
 
+    
+    out = file('/home/mint/Desktop/save.p', 'wb')
+    
+    #Create Pickle of vectorise output
+    pickle.dump( (train_data, train_labels, val_data, val_labels, test_data, test_labels), out, protocol=pickle.HIGHEST_PROTOCOL )   
+    out.close()
 
 
 
