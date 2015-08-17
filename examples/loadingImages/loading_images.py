@@ -1,8 +1,5 @@
 import imp, os.path as path
 
-
-
-
 def preprocess_images(directory, custom_dir, custom_height, custom_width):
     image_preprocesser.preprocess(directory, custom_dir, custom_height, custom_width)
 
@@ -35,6 +32,7 @@ if __name__== "__main__":
 
     image_preprocesser = imp.load_source('preprocess', '../../pyvec/images/image_preprocessor.py')
     dataset = imp.load_source('dataset', '../../pyvec/images/dataset.py')
+    output = imp.load_source('output', '../../pyvec/output/pickles.py')
 
     directory = "./dataset/originalData/"
     custom_dir = "preProcessed/"
